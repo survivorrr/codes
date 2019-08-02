@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+    
+<struts>
+	<package name="user" namespace="/user" extends="json-default">
+		<!-- 配置异常拦截器，统一解决异常处理问题 -->
+		<interceptors>
+			<interceptor name="exInterceptor" class="exceptionInterceptor"></interceptor>
+			<interceptor-stack name="jsonStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="exInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!--设置默认的连接配置，这个是全部的action都执行的拦截器 -->
+		<default-interceptor-ref name="jsonStack"></default-interceptor-ref>
+	
+		<global-results><!-- 定义一个全局Result，被全体Action共享 -->
+			<result type="json" name="json"><!-- result种类很多，如视频，音乐啊，这个type代表返回值类型 -->
+				<param name="root">result</param><!-- 用返回json实际指向的是result，result是在JsonAction里面定义的结果，所有Action都继承它 -->
+			</result>
+		</global-results>
+	
+		<action name="login" class="userAction" method="login"><!-- 这个method代表除了默认方法execute()之外的方法名 -->
+		</action>
+		
+		<action name="list" class="userAction" method="list">
+		</action>
+	</package>
+	
+</struts>
